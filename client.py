@@ -1,8 +1,8 @@
-import socket
+import bluetooth
 
 serverMACAddress = 'B8:27:EB:A1:CD:D7'
 port = 3
-s = socket.socket(socket.AF_BLUETOOTH, socket.SOCK_STREAM, socket.BTPROTO_RFCOMM)
+s = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
 s.connect((serverMACAddress,port))
 print("Connected !")
 while 1:
