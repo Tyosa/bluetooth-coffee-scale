@@ -1,4 +1,4 @@
-import socket
+import bluetooth
 import RPi.GPIO as GPIO
 from hx711 import HX711
 import struct
@@ -16,7 +16,7 @@ port = 3 # 3 is an arbitrary choice. However, it must match the port used by the
 backlog = 1
 size = 1024
 
-s = socket.socket(socket.AF_BLUETOOTH, socket.SOCK_STREAM, socket.BTPROTO_RFCOMM)
+s = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
 while True: 
     s.bind((hostMACAddress,port))
     s.listen(backlog)
