@@ -22,7 +22,7 @@ while True:
     s.listen(backlog)
     while True:
         client, address = s.accept()
-        print("Connectiontion from", address)
+        print("Connection from", address)
         try:
             while True:
                 data = client.recv(size)
@@ -33,10 +33,8 @@ while True:
                         client.send(bytes(str(weight), 'UTF-8'))        
                     else:
                         print("Received unknown command")         
-        except (OSError, socket.error) as e:
+        except (OSError, IOError) as e:
             print("Error:", e)
-            client.setsockopt(socket.SOL_SOCKET, socket.SO_LINGER, struct.pack('ii', 1, 0))
             client.close()
         else:
-            client.shutdown(socket.SHUT_RDWR)
             client.close()
