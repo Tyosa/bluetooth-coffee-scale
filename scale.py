@@ -8,18 +8,24 @@ hx.set_reading_format("MSB","MSB")
 hx.set_reference_unit(4619)
 hx.reset()
 hx.tare()
-
-print("Tare done !")
-
-hostMACAddress = 'B8:27:EB:A1:CD:D7' # The MAC address of a Bluetooth adapter on the server. The server might have multiple Bluetooth adapters.
-port = 3 # 3 is an arbitrary choice. However, it must match the port used by the client.
+    
+hostMACAddress = 'B8:27:EB:A1:CD:D7'
+port = 3 
 backlog = 1
 size = 1024
+
+uuid = "47b02853-3bcf-4f1c-b682-ccb98cf85f79"
 
 s = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
 while True: 
     s.bind((hostMACAddress,port))
     s.listen(backlog)
+    bluetooth.advertise_service(s, "Scale",
+        service_id=uuid,
+        service_classes=[uuid, bluetooth.SERIAL_PORT_CLASS],
+        profiles=[bluetooth.SERIAL_PORT_PROFILE]
+        )
+    
     while True:
         client, address = s.accept()
         print("Connection from", address)
@@ -33,7 +39,7 @@ while True:
                         client.send(bytes(str(weight), 'UTF-8'))        
                     else:
                         print("Received unknown command")         
-        except (OSError, IOError) as e:
+        except (OSError) as e:
             print("Error:", e)
             client.close()
         else:
