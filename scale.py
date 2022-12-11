@@ -36,10 +36,12 @@ while True:
                     command = data.decode('UTF-8')
                     if command == 'data':
                         weight = hx.get_weight(5)
-                        client.send(bytes(str(weight), 'UTF-8'))        
+                        client.send(bytes(str(weight), 'UTF-8'))    
+                    elif command == 'tare':
+                        hx.tare()    
                     else:
                         print("Received unknown command")         
-        except (OSError) as e:
+        except (IOError) as e:
             print("Error:", e)
             client.close()
         else:

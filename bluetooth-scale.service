@@ -1,0 +1,11 @@
+[Unit]
+Description=Service to run the bluetooth scale
+After=multi-user.target
+
+[Service]
+Type=simple
+Restart=always
+ExecStart=/usr/bin/python /home/pi/code/bluetooth-coffee-scale/scale.py
+
+[Install]
+WantedBy=multi-user.target
